@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://MainGame.gd" type="Script" id=1]
 [ext_resource path="res://train/train_graphics/train.png" type="Texture" id=2]
 [ext_resource path="res://train/train_graphics/banana.png" type="Texture" id=3]
+[ext_resource path="res://instrybutor/graphics/fuel.png" type="Texture" id=4]
+[ext_resource path="res://score/Score.tscn" type="PackedScene" id=5]
+[ext_resource path="res://fuel/FuelLevel.tscn" type="PackedScene" id=6]
 
 [sub_resource type="TileSet" id=1]
 0/name = "train.png 0"
@@ -40,6 +43,20 @@
 1/shape_one_way_margin = 0.0
 1/shapes = [  ]
 1/z_index = 0
+2/name = "fuel.png 2"
+2/texture = ExtResource( 4 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 0, 0, 96, 96 )
+2/tile_mode = 0
+2/occluder_offset = Vector2( 0, 0 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shape_offset = Vector2( 0, 0 )
+2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+2/shape_one_way = false
+2/shape_one_way_margin = 0.0
+2/shapes = [  ]
+2/z_index = 0
 
 [node name="MainGame" type="Node"]
 script = ExtResource( 1 )
@@ -48,3 +65,11 @@ script = ExtResource( 1 )
 tile_set = SubResource( 1 )
 cell_size = Vector2( 100, 100 )
 format = 1
+
+[node name="Score" parent="." instance=ExtResource( 5 )]
+position = Vector2( 845.746, 935.251 )
+scale = Vector2( 1.48, 1.28 )
+
+[node name="FuelLevel" parent="." instance=ExtResource( 6 )]
+position = Vector2( 30.2159, 932.841 )
+scale = Vector2( 1.72, 1.48 )
