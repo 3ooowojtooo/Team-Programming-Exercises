@@ -13,9 +13,9 @@ func _ready():
 
 func position_vegetable():
 	randomize()
-	var x = randi() % cell_number
-	var y = randi() % cell_number
-	return Vector2(x, y)
+	var p_x = randi() % cell_number
+	var p_y = randi() % cell_number
+	return Vector2(p_x, p_y)
 
 func get_next_vegetable():
 	randomize()

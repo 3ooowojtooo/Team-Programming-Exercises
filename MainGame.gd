@@ -19,12 +19,13 @@ func rand_point_with_exclusives(max_horizontal:int, max_vertical:int, exclusives
 	var result_y = rand_index / max_horizontal
 	return Vector2(result_x, result_y)
 
-# Method for updating score label to display new score value
-func set_score_label(score : int):
-	get_tree().call_group('ScoreGroup', 'update_score', score)
-	
 func set_fuel_level(fuel_level : int):
 	get_tree().call_group('FuelLevelGroup', 'update_fuel_level', fuel_level)
 	
 func _ready():
 	pass
+	
+#func _physics_process(delta):
+	#get_tree().change_scene("res://score/Score.tscn")
+	#get_tree().change_scene("res://train/train_test2D.tscn")
+	

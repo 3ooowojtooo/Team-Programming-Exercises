@@ -67,6 +67,7 @@ func relation2(first_segment:Vector2, second_segment:Vector2):
 	
 func move_train():
 	if add_vegatable:
+		set_score_label(train_body.size() - 3)
 		delete_tiles(TRAIN)
 		var train_copy = train_body.slice(0, train_body.size() - 1)
 		var new_head = train_copy[0] + train_direction
@@ -95,10 +96,12 @@ func check_game_over():
 	# train leaves the screen
 	if train_head.x > cell_number or train_head.x < 0 or train_head.y < 0 or train_head.y > cell_number:
 		reset()
+		get_tree().change_scene("res://EndGame.tscn")
 	# train crash
 	for segment in train_body.slice(1, train_body.size() - 1):
 		if segment == train_head:
 			reset()
+			get_tree().change_scene("res://EndGame.tscn")
 	
 func reset():
 	train_body = [Vector2(2, 0), Vector2(1, 0), Vector2(0, 0)]
@@ -126,6 +129,12 @@ func _on_trainTick_timeout():
 
 func _process(delta):
 	check_game_over()
+	
+	
+# Method for updating score label to display new score value
+func set_score_label(score : int):
+	get_tree().call_group('ScoreGroup', 'update_score', score)
+		
 
 #vegetbale to be delete - for train logic testing
 ###################################################
