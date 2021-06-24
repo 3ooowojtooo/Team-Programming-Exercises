@@ -7,15 +7,19 @@ var cell_number = (BOARD_SIZE/CELL_SIZE) - 1
 var train_body = [Vector2(2, 0), Vector2(1, 0), Vector2(0, 0)]
 var train_direction = Vector2(1, 0)
 var add_vegatable = false
+var game = load("res://MainGame.gd").new()
 
-#vegetbale to be delete - for train logic testing
+#vegetbale 
 ###################################################
-const BANANA = 1
-var banana_pos
+var vegetable_number
+var vegetable_position
 ###################################################
+
 
 func _ready():
-	banana_pos = place_banana()
+	
+	vegetable_position = game.rand_point_with_exclusives(cell_number, cell_number, train_body)
+	vegetable_number = get_next_vegetable()
 	
 func draw_train():
 	for segment_index in train_body.size():
@@ -87,8 +91,9 @@ func delete_tiles(id:int):
 		$train.set_cell(cell.x, cell.y, -1)
 
 func check_vegetable():
-	if banana_pos == train_body[0]:
-		banana_pos = place_banana()
+	if vegetable_position == train_body[0]:
+		vegetable_position = game.rand_point_with_exclusives(cell_number, cell_number, train_body)
+		vegetable_number = get_next_vegetable()
 		add_vegatable = true
 				
 func check_game_over():
@@ -124,7 +129,7 @@ func _input(event):
 func _on_trainTick_timeout():
 	move_train()
 	draw_train()
-	draw_banana()
+	draw_vegetable()
 	check_vegetable()
 
 func _process(delta):
@@ -136,14 +141,15 @@ func set_score_label(score : int):
 	get_tree().call_group('ScoreGroup', 'update_score', score)
 		
 
-#vegetbale to be delete - for train logic testing
+#vegetbale 
 ###################################################
-func place_banana():
+
+func get_next_vegetable():
 	randomize()
-	var x = randi() % cell_number
-	var y = randi() % cell_number
-	return Vector2(x, y)
+	var number = randi() % 5
+	number = number + 4
+	return number
 	
-func draw_banana():
-	$train.set_cell(banana_pos.x, banana_pos.y, BANANA)
+func draw_vegetable():
+	$train.set_cell(vegetable_position.x, vegetable_position.y, vegetable_number)
 ###################################################

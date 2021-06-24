@@ -6,7 +6,12 @@ var cell_number = (BOARD_SIZE/CELL_SIZE) - 1
 var vegetable_position
 var vegetable_number
 
+var game = load("res://MainGame.gd").new()
+var point = Vector2(0,0)
+var array = [point]
+
 func _ready():
+	print(game.rand_point_with_exclusives(10,10, array))
 	vegetable_position = position_vegetable()
 	vegetable_number = get_next_vegetable()
 	draw_vegetable()
