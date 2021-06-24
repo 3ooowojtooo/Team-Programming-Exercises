@@ -3,16 +3,22 @@ extends Node2D
 const BOARD_SIZE = 1000
 const CELL_SIZE = 100
 const TRAIN = 0
+const POWER_UP = 10
 var cell_number = (BOARD_SIZE/CELL_SIZE) - 1
 var train_body = [Vector2(2, 0), Vector2(1, 0), Vector2(0, 0)]
 var train_direction = Vector2(1, 0)
 var add_vegatable = false
+# fuel
+var add_fuel = false
 var game = load("res://MainGame.gd").new()
 
 #vegetbale 
 ###################################################
 var vegetable_number
 var vegetable_position
+# fuel to be done
+var fuel_amount
+var fuel_position 
 ###################################################
 
 
@@ -96,8 +102,15 @@ func check_vegetable():
 		vegetable_number = get_next_vegetable()
 		add_vegatable = true
 		$CrunchSound.play()
-		
-				
+
+func check_fuel():
+	if fuel_position == train_body[0]:
+		fuel_position = game.rand_point_with_exclusives(cell_number, cell_number, train_body)
+		fuel_amount = fuel_amount + POWER_UP 
+		set_fuel_level(fuel_amount);
+		add_fuel = true
+		$PowerUpSound.play()
+						
 func check_game_over():
 	var train_head = train_body[0]
 	# train leaves the screen
@@ -133,6 +146,8 @@ func _on_trainTick_timeout():
 	draw_train()
 	draw_vegetable()
 	check_vegetable()
+	# check fuel 
+	check_fuel()
 
 func _process(delta):
 	check_game_over()
@@ -143,6 +158,8 @@ func set_score_label(score : int):
 	get_tree().call_group('ScoreGroup', 'update_score', score)
 		
 
+func set_fuel_level(fuel_level : int):
+	get_tree().call_group('FuelLevelGroup', 'update_fuel_level', fuel_level)
 #vegetbale 
 ###################################################
 
