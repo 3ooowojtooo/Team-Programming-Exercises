@@ -15,7 +15,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Erebor"
-run/main_scene="res://MainGame.tscn"
+run/main_scene="res://board/menu_board/MenuScreen.tscn"
 config/icon="res://icon.png"
 
 [display]
