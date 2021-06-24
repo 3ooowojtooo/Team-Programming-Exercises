@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://train/Train.gd" type="Script" id=1]
 [ext_resource path="res://train/train_graphics/train.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://vegetables/graphics/broccoli.png" type="Texture" id=9]
 [ext_resource path="res://vegetables/graphics/eggplant.png" type="Texture" id=10]
 [ext_resource path="res://vegetables/graphics/chilli.png" type="Texture" id=11]
+[ext_resource path="res://sounds/crunch.wav" type="AudioStream" id=12]
 
 [sub_resource type="TileSet" id=1]
 0/name = "train.png 0"
@@ -223,5 +224,8 @@ format = 1
 [node name="trainTick" type="Timer" parent="."]
 wait_time = 0.2
 autostart = true
+
+[node name="CrunchSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 12 )
 
 [connection signal="timeout" from="trainTick" to="." method="_on_trainTick_timeout"]

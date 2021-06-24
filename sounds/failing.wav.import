@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/failing.wav-4135302224eba943483d42d5ba1b2ce7.sample"
+
+[deps]
+
+source_file="res://sounds/failing.wav"
+dest_files=[ "res://.import/failing.wav-4135302224eba943483d42d5ba1b2ce7.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

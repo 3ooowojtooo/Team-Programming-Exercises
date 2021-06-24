@@ -95,6 +95,8 @@ func check_vegetable():
 		vegetable_position = game.rand_point_with_exclusives(cell_number, cell_number, train_body)
 		vegetable_number = get_next_vegetable()
 		add_vegatable = true
+		$CrunchSound.play()
+		
 				
 func check_game_over():
 	var train_head = train_body[0]
