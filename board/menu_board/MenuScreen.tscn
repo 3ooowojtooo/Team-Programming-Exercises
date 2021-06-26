@@ -87,8 +87,8 @@ margin_right = 796.0
 margin_bottom = 424.0
 
 [node name="StartButton" type="Button" parent="PanelContainer/MarginContainer/PanelContainer2/Rows/CenterContainer"]
-margin_left = 159.0
-margin_right = 636.0
+margin_left = 158.0
+margin_right = 638.0
 margin_bottom = 89.0
 custom_styles/pressed = SubResource( 3 )
 custom_styles/normal = SubResource( 4 )

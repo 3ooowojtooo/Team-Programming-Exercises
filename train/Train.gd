@@ -3,13 +3,18 @@ extends Node2D
 const BOARD_SIZE = 1000
 const CELL_SIZE = 100
 const TRAIN = 0
+const INSTRIBUTOR = 9
 const POWER_UP = 10
+const POWER_DOWN = 1
+const RAND_FUEL_TIME_MIN = 10
+const RAND_FUEL_TIME_MAX = 15
+var next_fuel_rand_time = -1
+var time_since_last_fuel = 0
 var cell_number = (BOARD_SIZE/CELL_SIZE) - 1
 var train_body = [Vector2(2, 0), Vector2(1, 0), Vector2(0, 0)]
 var train_direction = Vector2(1, 0)
 var add_vegatable = false
 # fuel
-var add_fuel = false
 var game = load("res://MainGame.gd").new()
 
 #vegetbale 
@@ -17,7 +22,7 @@ var game = load("res://MainGame.gd").new()
 var vegetable_number
 var vegetable_position
 # fuel to be done
-var fuel_amount
+var fuel_amount = 100
 var fuel_position 
 ###################################################
 
@@ -77,12 +82,12 @@ func relation2(first_segment:Vector2, second_segment:Vector2):
 	
 func move_train():
 	if add_vegatable:
-		set_score_label(train_body.size() - 3)
 		delete_tiles(TRAIN)
 		var train_copy = train_body.slice(0, train_body.size() - 1)
 		var new_head = train_copy[0] + train_direction
 		train_copy.insert(0, new_head)
 		train_body = train_copy
+		set_score_label(train_body.size() - 3)
 		add_vegatable = false
 	else:
 		delete_tiles(TRAIN)
@@ -106,10 +111,9 @@ func check_vegetable():
 func check_fuel():
 	if fuel_position == train_body[0]:
 		fuel_position = game.rand_point_with_exclusives(cell_number, cell_number, train_body)
-		fuel_amount = fuel_amount + POWER_UP 
-		set_fuel_level(fuel_amount);
-		add_fuel = true
-		$PowerUpSound.play()
+		fuel_amount = min(fuel_amount + POWER_UP, 100) 
+		set_fuel_level(fuel_amount)
+		$FuelUpSound.play()
 						
 func check_game_over():
 	var train_head = train_body[0]
@@ -122,10 +126,18 @@ func check_game_over():
 		if segment == train_head:
 			reset()
 			get_tree().change_scene("res://board/game_over_board/GameOverScreen.tscn")
-	
+	# train runs out of fuel
+	if fuel_amount == 0:
+		reset()
+		get_tree().change_scene("res://board/game_over_board/GameOverScreen.tscn")
+		
 func reset():
 	train_body = [Vector2(2, 0), Vector2(1, 0), Vector2(0, 0)]
 	train_direction = Vector2(1, 0)
+	next_fuel_rand_time = -1
+	time_since_last_fuel = 0
+	fuel_amount = 100
+	fuel_position = null
 	
 func _input(event):
 	if Input.is_action_just_pressed("ui_up"):    
@@ -148,10 +160,11 @@ func _on_trainTick_timeout():
 	check_vegetable()
 	# check fuel 
 	check_fuel()
+	handle_instributor()
 
 func _process(delta):
 	check_game_over()
-	
+	add_time_since_fuel(delta)
 	
 # Method for updating score label to display new score value
 func set_score_label(score : int):
@@ -172,3 +185,20 @@ func get_next_vegetable():
 func draw_vegetable():
 	$train.set_cell(vegetable_position.x, vegetable_position.y, vegetable_number)
 ###################################################
+
+func handle_instributor():
+	if next_fuel_rand_time < 0:
+		next_fuel_rand_time = randi() % (RAND_FUEL_TIME_MAX - RAND_FUEL_TIME_MIN) + RAND_FUEL_TIME_MIN
+	if time_since_last_fuel >= next_fuel_rand_time:
+		next_fuel_rand_time = randi() % (RAND_FUEL_TIME_MAX - RAND_FUEL_TIME_MIN) + RAND_FUEL_TIME_MIN
+		time_since_last_fuel = 0
+		fuel_position = game.rand_point_with_exclusives(cell_number, cell_number, train_body)
+		$train.set_cell(fuel_position.x, fuel_position.y, INSTRIBUTOR)
+		
+func add_time_since_fuel(delta):
+	time_since_last_fuel = time_since_last_fuel + delta
+
+
+func _on_fuelTick_timeout():
+	fuel_amount = max(fuel_amount - POWER_DOWN, 0)
+	set_fuel_level(fuel_amount)

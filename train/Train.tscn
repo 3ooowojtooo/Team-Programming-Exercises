@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://train/Train.gd" type="Script" id=1]
 [ext_resource path="res://train/train_graphics/train.png" type="Texture" id=2]
@@ -14,6 +14,8 @@
 [ext_resource path="res://sounds/crunch.wav" type="AudioStream" id=12]
 [ext_resource path="res://sounds/Retro Beat.ogg" type="AudioStream" id=13]
 [ext_resource path="res://sounds/powerUp2.ogg" type="AudioStream" id=14]
+[ext_resource path="res://fuel/graphics/fuel.png" type="Texture" id=15]
+[ext_resource path="res://sounds/refueling.wav" type="AudioStream" id=16]
 
 [sub_resource type="TileSet" id=1]
 0/name = "train.png 0"
@@ -205,6 +207,20 @@
 8/shape_one_way_margin = 0.0
 8/shapes = [  ]
 8/z_index = 0
+9/name = "fuel.png 9"
+9/texture = ExtResource( 15 )
+9/tex_offset = Vector2( 0, 0 )
+9/modulate = Color( 1, 1, 1, 1 )
+9/region = Rect2( -4, 0, 95, 105 )
+9/tile_mode = 0
+9/occluder_offset = Vector2( 0, 0 )
+9/navigation_offset = Vector2( 0, 0 )
+9/shape_offset = Vector2( 0, 0 )
+9/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+9/shape_one_way = false
+9/shape_one_way_margin = 0.0
+9/shapes = [  ]
+9/z_index = 0
 
 [node name="train_test" type="Node2D"]
 script = ExtResource( 1 )
@@ -238,4 +254,12 @@ stream = ExtResource( 13 )
 volume_db = -26.252
 autoplay = true
 
+[node name="FuelUpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 16 )
+
+[node name="fuelTick" type="Timer" parent="."]
+wait_time = 0.7
+autostart = true
+
 [connection signal="timeout" from="trainTick" to="." method="_on_trainTick_timeout"]
+[connection signal="timeout" from="fuelTick" to="." method="_on_fuelTick_timeout"]

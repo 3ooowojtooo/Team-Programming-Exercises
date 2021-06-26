@@ -21,8 +21,3 @@ func rand_point_with_exclusives(max_horizontal:int, max_vertical:int, exclusives
 	
 func _ready():
 	pass
-	
-#func _physics_process(delta):
-	#get_tree().change_scene("res://score/Score.tscn")
-	#get_tree().change_scene("res://train/train_test2D.tscn")
-	
