@@ -110,7 +110,7 @@ func check_vegetable():
 
 func check_fuel():
 	if fuel_position == train_body[0]:
-		fuel_position = game.rand_point_with_exclusives(cell_number, cell_number, train_body)
+		fuel_position = null
 		fuel_amount = min(fuel_amount + POWER_UP, 100) 
 		set_fuel_level(fuel_amount)
 		$FuelUpSound.play()
@@ -192,8 +192,9 @@ func handle_instributor():
 	if time_since_last_fuel >= next_fuel_rand_time:
 		next_fuel_rand_time = randi() % (RAND_FUEL_TIME_MAX - RAND_FUEL_TIME_MIN) + RAND_FUEL_TIME_MIN
 		time_since_last_fuel = 0
-		fuel_position = game.rand_point_with_exclusives(cell_number, cell_number, train_body)
-		$train.set_cell(fuel_position.x, fuel_position.y, INSTRIBUTOR)
+		if fuel_position == null:
+			fuel_position = game.rand_point_with_exclusives(cell_number, cell_number, train_body)
+			$train.set_cell(fuel_position.x, fuel_position.y, INSTRIBUTOR)
 		
 func add_time_since_fuel(delta):
 	time_since_last_fuel = time_since_last_fuel + delta
